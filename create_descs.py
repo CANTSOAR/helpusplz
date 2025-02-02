@@ -6,7 +6,7 @@ from deepseekcli import DeepSeekModel
 uri = "mongodb+srv://ryanchwang:aO0oL36ytNgOpNyH@apollo.nsr4b.mongodb.net/?retryWrites=true&w=majority&appName=Apollo"
 client = MongoClient(uri, tlsAllowInvalidCertificates=True)
 
-db = client["Subjects_Copy"]
+db = client["Subjects_Final"]
 collections = db.list_collection_names()[:]
 
 def create_course_desc_and_outline(collection_name, stuff_in_collection):
@@ -20,7 +20,7 @@ def create_course_desc_and_outline(collection_name, stuff_in_collection):
         
         content = DeepSeekModel.generate_syllabus(course_id, course_title, course_creds, collection_name, course_prereqs)
 
-        db[collection_name].update_one({"_id": course["_id"]}, {"$push": {"content": content}})
+        db[collection_name].update_one({"_id": course["_id"]}, {"content": content})
 
         print(collection_name, course_title, "done!")
 
