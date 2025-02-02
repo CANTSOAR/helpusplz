@@ -1,5 +1,4 @@
 from pymongo.mongo_client import MongoClient
-from concurrent.futures import ThreadPoolExecutor
 from deepseekcli import DeepSeekModel
 
 # MongoDB URI and connection
@@ -27,17 +26,13 @@ def create_course_desc_and_outline(collection_name, stuff_in_collection):
 
 # Main async function to handle concurrent scraping and MongoDB insertions
 def main():
-    # ThreadPoolExecutor for concurrent scraping
-    with ThreadPoolExecutor(max_workers=5) as executor:
-        # Create a pool of WebDriver instances
-        futures = []
 
-        # Iterate through each collection and perform some operation
-        for collection_name in collections:
-            collection = db[collection_name]  # Access the collection
+    # Iterate through each collection and perform some operation
+    for collection_name in collections:
+        collection = db[collection_name]  # Access the collection
 
-            print("starting collection", collection_name)
-            create_course_desc_and_outline(collection_name, collection.find())
+        print("starting collection", collection_name)
+        create_course_desc_and_outline(collection_name, collection.find())
 
 # Run the async main function
 main()
